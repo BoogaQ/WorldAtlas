@@ -5,41 +5,46 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Country extends GeographicalLocation implements Comparable<Country> {
-	private int capital;
+	private Capital capital;
 	private Set<City> cities;
-	private Set<Integer> bordering;
+	private Set<Country> bordering;
 	
-	public Country(int id, String name, int capital) {
+	public Country(int id, String name) {
+		super(id, name);
+		cities = new TreeSet<City>();
+		this.bordering = new TreeSet<Country>();
+	}
+	
+	public Country(int id, String name, Capital capital) {
 		super(id, name);
 		cities = new TreeSet<City>();
 		this.capital = capital;
-		this.bordering = new TreeSet<Integer>();
+		this.bordering = new TreeSet<Country>();
 	}
 	
-	public int getCapital() {
+	public void setCapital(Capital c) {
+		capital = c;
+	}
+	public Capital getCapital() {
 		return capital;
 	}
-	
 	public Set<City> getCities() {
 		return cities;
 	}
 	public void addCity(City c) {
 		cities.add(c);
 	}
-	public Set<Integer> getBordering() {
+	public Set<Country> getBordering() {
 		return bordering;
 	}
 	public void addBordering(Country n) {
-		bordering.add(n.getId());
-	}
-	public void addBordering(Integer n) {
 		bordering.add(n);
 	}
-	public void addBorderingMany(Collection<Integer> n) {
+	public void addBorderingMany(Collection<Country> n) {
 		bordering.addAll(n);
 	}
 	public boolean isBordering(Country c) {
-		if (bordering.contains(c.getId())) {
+		if (bordering.contains(c)) {
 			return true;
 		}
 		return false;
@@ -60,13 +65,17 @@ public class Country extends GeographicalLocation implements Comparable<Country>
 	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
-		s.append(this.getName());
+		s.append("\n" + this.getId() + " : " + this.getName());
 		s.append("\nPopulation: " + this.getPopulation());
 		s.append("\nCities: ");
 		for (City c : cities) {
-			s.append("\n\t" + c.toString());
+			s.append("\n\t" + c.toString() + "\n");
 		}
-		s.append(bordering);
+		s.append("Bordering countries: ");
+		for (Country b : bordering) {
+			s.append("|" + b.getName());
+		}
+		s.append("\n\nCapital City: " + getCapital().getName() + "\n-------------------------");
 		return s.toString();
 	}
 }

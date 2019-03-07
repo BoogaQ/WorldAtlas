@@ -1,6 +1,8 @@
 package com.worldAtlas.geography;
 
-public class GeographicalLocation{
+import java.util.Objects;
+
+public abstract class GeographicalLocation {
 	
 	private int id;
 	private String name;
@@ -32,5 +34,19 @@ public class GeographicalLocation{
 	}
 	public int getPopulation() {
 		return population;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}	
+		if (o == null) {
+			return false;
+		}
+		if (getClass() != o.getClass())
+	        return false;
+		GeographicalLocation gl = (GeographicalLocation) o;
+		return Objects.equals(this.getId(), gl.getId());
 	}
 }
